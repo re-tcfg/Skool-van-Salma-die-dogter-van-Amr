@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 المكتبة الرقمية - مدرسة الجفر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: linear-gradient(135deg, #004d40, #00796b);
+            color: #fff;
+        }
+        
+        header {
+            background: rgba(0, 77, 64, 0.7);
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd700;
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: #ffd700;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        
+        .tab.active {
+            background: #ffd700;
+            color: #004d40;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .resource-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resource-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+        }
+        
+        .resource-type {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #c8e6c9;
+        }
+        
+        .resource-btn {
+            background: #ffd700;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .resource-btn:hover {
+            background: #ffeb3b;
+            transform: scale(1.05);
+        }
+        /* مودال */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #fff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content h2 {
+            margin-top: 0;
+            color: #00796b;
+        }
+        
+        .modal-content button {
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: #00796b;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .modal-content button:hover {
+            background: #004d40;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>📚 المكتبة الرقمية - مدرسة سلمى بنت عمرو</header>
+
+    <div class="container">
+        <div class="tabs" id="gradeTabs">
+            <a href="الصف 1.html" class="tab active" data-grade="1">الصف 1</a>
+            <a href="الصف 2.html" class="tab" data-grade="2">الصف 2</a>
+            <a href="الصف 3.html" class="tab" data-grade="3">الصف 3</a>
+            <a href="الصف 4.html" class="tab" data-grade="4">الصف 4</a>
+            <a href="الصف 5.html" class="tab" data-grade="5">الصف 5</a>
+        </div>
+
+        <div class="resources-grid" id="resourcesGrid"></div>
+    </div>
+
+    <!-- المودال -->
+    <div class="modal" id="resourceModal">
+        <div class="modal-content">
+            <h2 id="modalTitle"></h2>
+            <p id="modalType"></p>
+            <p id="modalSubject"></p>
+            <button onclick="closeModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <script>
+        const resourcesData = {
+            1: [{
+                title: "الأحرف العربية",
+                type: "🎥 فيديو",
+                icon: "📝",
+                subject: "اللغة العربية"
+            }, {
+                title: "الأرقام من 1-10",
+                type: "🎮 نشاط تفاعلي",
+                icon: "🔢",
+                subject: "الرياضيات"
+            }, {
+                title: "الألوان والأشكال",
+                type: "📊 عرض تقديمي",
+                icon: "🎨",
+                subject: "التربية الفنية"
+            }],
+            2: [{
+                title: "الجمع والطرح",
+                type: "🎮 نشاط",
+                icon: "➕",
+                subject: "الرياضيات"
+            }, {
+                title: "قصص قصيرة",
+                type: "🎥 فيديو",
+                icon: "📖",
+                subject: "اللغة العربية"
+            }],
+            3: [{
+                title: "علوم الطبيعة",
+                type: "🎥 فيديو",
+                icon: "🔬",
+                subject: "العلوم"
+            }, {
+                title: "تاريخ الأردن",
+                type: "📊 عرض تقديمي",
+                icon: "🏰",
+                subject: "الدراسات الاجتماعية"
+            }],
+            4: [{
+                title: "الكسور",
+                type: "🎮 نشاط",
+                icon: "➗",
+                subject: "الرياضيات"
+            }, {
+                title: "المهارات الكتابية",
+                type: "🎥 فيديو",
+                icon: "✏️",
+                subject: "اللغة العربية"
+            }],
+            5: [{
+                title: "الكهرباء والمغناطيسية",
+                type: "🎥 فيديو",
+                icon: "⚡",
+                subject: "العلوم"
+            }, {
+                title: "التحليل الأدبي",
+                type: "📊 عرض تقديمي",
+                icon: "📚",
+                subject: "اللغة العربية"
+            }]
+        };
+
+        const resourcesGrid = document.getElementById("resourcesGrid");
+        const gradeTabs = document.getElementById("gradeTabs").querySelectorAll(".tab");
+
+        function renderResources(grade) {
+            resourcesGrid.innerHTML = "";
+            resourcesData[grade].forEach((res, index) => {
+                const card = document.createElement("div");
+                card.className = "resource-card";
+                card.innerHTML = `
+                    <div class="resource-icon">${res.icon}</div>
+                    <div class="resource-title">${res.title}</div>
+                    <div class="resource-type">${res.type}</div>
+                    <button class="resource-btn" onclick="openModal(${grade},${index})">عرض المورد</button>
+                `;
+                resourcesGrid.appendChild(card);
+            });
+        }
+
+        function openModal(grade, index) {
+            const res = resourcesData[grade][index];
+            document.getElementById("modalTitle").textContent = res.title;
+            document.getElementById("modalType").textContent = "النوع: " + res.type;
+            document.getElementById("modalSubject").textContent = "المادة: " + res.subject;
+            document.getElementById("resourceModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("resourceModal").style.display = "none";
+        }
+
+        gradeTabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                gradeTabs.forEach(t => t.classList.remove("active"));
+                tab.classList.add("active");
+                renderResources(tab.dataset.grade);
+            });
+        });
+
+        // عرض الصف 1 أول مرة
+        renderResources(1);
+    </script>
+</body>
+
+</html>

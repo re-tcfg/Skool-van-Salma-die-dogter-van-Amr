@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>عن المديرة — الأ. آمنة أبو تايه | مدرسة سلمى بنت عمرو الأساسية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg1: #04251f;
+            --bg2: #064b40;
+            --glass: rgba(255, 255, 255, 0.06);
+            --stroke: rgba(255, 255, 255, 0.12);
+            --gold: #ffd166;
+            --accent: #10b981;
+            --muted: #bcd9cf;
+            --card-radius: 18px;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        html,
+        body {
+            height: 100%
+        }
+        
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: radial-gradient(800px 500px at 10% -10%, rgba(157, 141, 255, 0.08), transparent 35%), radial-gradient(900px 600px at 110% 10%, rgba(34, 211, 238, 0.06), transparent 35%), linear-gradient(160deg, var(--bg1), var(--bg2));
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding-bottom: 80px;
+        }
+        /* decorative blobs */
+        
+        .blob {
+            position: fixed;
+            filter: blur(60px);
+            opacity: .28;
+            z-index: 0;
+            mix-blend-mode: screen
+        }
+        
+        .b1 {
+            width: 420px;
+            height: 420px;
+            background: conic-gradient(from 90deg, var(--accent), #54d6b8);
+            right: -140px;
+            top: -80px;
+            border-radius: 50%;
+            animation: float 14s infinite
+        }
+        
+        .b2 {
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle at 30% 30%, var(--gold), transparent 60%), radial-gradient(circle at 70% 70%, var(--accent), transparent 60%);
+            left: -160px;
+            bottom: -120px;
+            border-radius: 50%;
+            animation: float 18s infinite reverse
+        }
+        
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+            50% {
+                transform: translateY(18px)
+            }
+        }
+        /* container */
+        
+        .wrap {
+            max-width: 1100px;
+            margin: 28px auto;
+            padding: 18px;
+            position: relative;
+            z-index: 2
+        }
+        /* top nav / header */
+        
+        header.topbar {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--stroke);
+            padding: 12px 18px;
+            border-radius: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(8px) saturate(140%);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+        }
+        
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+        
+        .logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--accent), #3ee7b8);
+            color: #04251f;
+            font-weight: 800;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, .12)
+        }
+        
+        .brand h1 {
+            font-size: 1.05rem;
+            margin: 0
+        }
+        
+        .brand p {
+            margin: 0;
+            font-size: .84rem;
+            color: var(--muted)
+        }
+        
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+        
+        .btn {
+            padding: .55rem .9rem;
+            border-radius: 999px;
+            border: 1px solid var(--stroke);
+            background: var(--glass);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            gap: .6rem;
+            align-items: center;
+            transition: all .18s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35)
+        }
+        
+        .btn.primary {
+            background: linear-gradient(135deg, var(--accent), #3ee7b8);
+            color: #04251f;
+            border-color: transparent
+        }
+        
+        .btn.ghost {
+            background: transparent;
+            border: 1px dashed rgba(255, 255, 255, 0.08)
+        }
+        /* hero card */
+        
+        .hero {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 20px;
+            margin-top: 18px
+        }
+        
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--stroke);
+            border-radius: var(--card-radius);
+            padding: 20px;
+            backdrop-filter: blur(10px) saturate(140%);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        }
+        /* profile side */
+        
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            color: #04251f;
+            margin: 0 auto 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25)
+        }
+        
+        .profile-name {
+            text-align: center;
+            margin-bottom: 6px;
+            font-weight: 800;
+            color: var(--gold)
+        }
+        
+        .profile-role {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 12px
+        }
+        
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px
+        }
+        
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .55rem .7rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.02)
+        }
+        
+        .contact-item span {
+            color: var(--muted);
+            font-size: .95rem
+        }
+        
+        .contact-item .val {
+            font-weight: 700;
+            color: var(--gold)
+        }
+        /* main details */
+        
+        .bio h2 {
+            margin: 0 0 8px;
+            color: var(--gold)
+        }
+        
+        .bio p {
+            color: var(--muted);
+            line-height: 1.6
+        }
+        
+        .section {
+            margin-top: 18px
+        }
+        
+        .section h3 {
+            margin: 0 0 10px;
+            color: #fff
+        }
+        
+        .achievements {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+        
+        .ach-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            color: var(--muted)
+        }
+        /* timeline */
+        
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+        
+        .timeline-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start
+        }
+        
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gold);
+            margin-top: 6px
+        }
+        
+        .timeline-content {
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.02)
+        }
+        /* gallery */
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px
+        }
+        
+        .g-item {
+            height: 84px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.02)
+        }
+        /* footer small */
+        
+        footer {
+            margin-top: 26px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .86rem
+        }
+        /* modal */
+        
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1200
+        }
+        
+        .modal-card {
+            width: 96%;
+            max-width: 520px;
+            background: #fff;
+            color: #04251f;
+            padding: 18px;
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35)
+        }
+        
+        .modal-card h3 {
+            margin-top: 0
+        }
+        
+        .modal-row {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px
+        }
+        
+        .modal-row input,
+        .modal-row textarea {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #e6e6e6;
+            font-size: 1rem
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 12px
+        }
+        /* responsive */
+        
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+            .gallery {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+        
+        @media (max-width: 520px) {
+            .gallery {
+                grid-template-columns: 1fr
+            }
+            .brand h1 {
+                font-size: .95rem
+            }
+            .profile-photo {
+                width: 98px;
+                height: 98px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    <div class="wrap">
+        <!-- topbar -->
+        <header class="topbar" role="banner">
+            <div class="brand">
+                <div class="logo">📚</div>
+                <div>
+                    <h1>مدرسة سلمى بنت عمرو الأساسية — الجفر</h1>
+                    <p>صفحة المديرة | الأستاذة آمنة أبو تايه</p>
+                </div>
+            </div>
+
+            <div class="top-actions" role="navigation" aria-label="أزرار">
+                <a href="index.html" class="btn ghost" onclick="history.back()">← العودة</a>
+            </div>
+        </header>
+
+        <!-- hero / profile -->
+        <section class="hero" aria-labelledby="profileTitle">
+            <!-- left column -->
+            <aside class="card" style="display:flex;flex-direction:column;align-items:stretch;gap:10px">
+                <div style="text-align:center">
+                    <div class="profile-photo">أ. آ</div>
+                    <div class="profile-name">الأستاذة آمنة أبو تايه</div>
+                    <div class="profile-role">مديرة مدرسة سلمى بنت عمرو الأساسية</div>
+                </div>
+
+                <div class="contact-list" aria-label="معلومات الاتصال">
+                    <div class="contact-item"><span>البريد الإلكتروني</span><span class="val">amina.abutayeh@school.jo</span></div>
+                    <div class="contact-item"><span>هاتف المدرسة</span><span class="val">+962 79 *******</span></div>
+                    <div class="contact-item"><span>الموقع</span><span class="val">الجفر، محافظة معان</span></div>
+                </div>
+
+                <div style="margin-top:auto;display:flex;gap:8px">
+                    <button class="btn primary" id="openMessage2">✉️ إرسال رسالة</button>
+                    <button class="btn" onclick="document.querySelector('#achieve').scrollIntoView({behavior:'smooth'})">🏆 إنجازات</button>
+                </div>
+            </aside>
+
+            <!-- right column -->
+            <main class="card" id="profileMain">
+                <section class="bio" id="profileTitle">
+                    <h2>كلمة المديرة</h2>
+                    <p>
+                        تتشرف مدرسة سلمى بنت عمرو الأساسية بقيادة المديرة الفاضلة <strong>الأستاذة آمنة أبو تايه</strong>، والتي تمتلك رؤية تربوية واضحة تركز على تطوير العملية التعليمية، وبناء بيئة مدرسية آمنة ومحفزة للطلاب. تعمل الأستاذة آمنة على دعم
+                        المعلمات وتفعيل أدوات التعلم الرقمي، ومن هنا جاءت مبادرة المكتبة الرقمية كخطوة عملية لخدمة المجتمع التعليمي في الجفر.
+                    </p>
+                </section>
+
+                <div class="section" id="achieve">
+                    <h3>إنجازات ومبادرات تحت قيادتها</h3>
+                    <div class="achievements">
+                        <div class="ach-item">• إطلاق المكتبة الرقمية بالمدرسة بالتعاون مع كادر المعلمات ووزارة التربية.</div>
+                        <div class="ach-item">• تحسين نتائج القراءة والكتابة للصفوف الابتدائية بنسبة ملحوظة عبر برامج الدعم.</div>
+                        <div class="ach-item">• تنظيم فعاليات مجتمعية وثقافية تربط المدرسة بالأسرة المحلية.</div>
+                        <div class="ach-item">• برامج تدريب للمعلمات في طرق التعليم النشط واستخدام الوسائط المتعددة.</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>الخبرات المهنية</h3>
+                    <div class="timeline" aria-label="سجل إنجازات زمنية">
+                        <div class="timeline-row">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <div class="timeline-content"><strong>منذ 2010</strong> — عملت في مجال التدريس والإدارة التربوية في عدة مدارس بالمملكة.</div>
+                        </div>
+                        <div class="timeline-row">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <div class="timeline-content"><strong>2018</strong> — تولت منصب نائبة مديرة ومبادرات تطوير منهجية.</div>
+                        </div>
+                        <div class="timeline-row">
+                            <div class="timeline-dot" aria-hidden="true"></div>
+                            <div class="timeline-content"><strong>2022</strong> — تم تعيينها كمديرة لمدرسة سلمى بنت عمرو الأساسية وقيادة مشاريع رقمية.</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </main>
+        </section>
+
+        <footer>
+            <p>بتوجيهات من قائدة المدرسة الفاضلة أ. آمنة أبو تايه وبجهود مميزة من المعلمات — مكتبة مدرسة سلمى بنت عمرو الأساسية / الجفر</p>
+            <p style="margin-top:8px">جميع الحقوق محفوظة © مدرسة سلمى بنت عمرو الأساسية / الجفر — 2025</p>
+        </footer>
+    </div>
+
+    <!-- Modal لإرسال رسالة -->
+    <div class="modal" id="msgModal" role="dialog" aria-modal="true" aria-labelledby="msgTitle">
+        <div class="modal-card" role="document">
+            <h3 id="msgTitle">إرسال رسالة إلى المديرة</h3>
+            <div class="modal-row">
+                <input id="senderName" placeholder="الاسم" />
+                <input id="senderEmail" placeholder="البريد الإلكتروني" />
+                <textarea id="senderMsg" rows="5" placeholder="اكتب رسالتك هنا..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn" id="closeModalBtn">إلغاء</button>
+                <button class="btn primary" id="sendBtn">إرسال الرسالة</button>
+            </div>
+            <p id="msgStatus" style="margin-top:10px;color:#0a7a5a;display:none"></p>
+        </div>
+    </div>
+
+    <script>
+        // عناصر واجهة
+        // عناصر واجهة
+        const openMessage2 = document.getElementById('openMessage2');
+        const msgModal = document.getElementById('msgModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const sendBtn = document.getElementById('sendBtn');
+        const msgStatus = document.getElementById('msgStatus');
+
+        function openModal() {
+            msgModal.style.display = 'flex';
+            msgStatus.style.display = 'none';
+        }
+
+        function closeModal() {
+            msgModal.style.display = 'none';
+        }
+
+        if (openMessage2) openMessage2.addEventListener('click', openModal);
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+
+        // محاكاة إرسال الرسالة
+        sendBtn ? .addEventListener('click', () => {
+            const name = document.getElementById('senderName').value.trim();
+            const email = document.getElementById('senderEmail').value.trim();
+            const text = document.getElementById('senderMsg').value.trim();
+
+            if (!name || !email || !text) {
+                msgStatus.style.display = 'block';
+                msgStatus.style.color = '#ef4444';
+                msgStatus.textContent = 'الرجاء تعبئة جميع الحقول قبل الإرسال.';
+                return;
+            }
+
+            msgStatus.style.display = 'block';
+            msgStatus.style.color = '#0a7a5a';
+            msgStatus.textContent = 'تم إرسال الرسالة بنجاح. شكراً لتواصلكم.';
+
+            setTimeout(() => {
+                document.getElementById('senderName').value = '';
+                document.getElementById('senderEmail').value = '';
+                document.getElementById('senderMsg').value = '';
+                setTimeout(closeModal, 1200);
+            }, 700);
+        });
+
+        // إغلاق المودال عند النقر خارج المحتوى
+        msgModal.addEventListener('click', (e) => {
+            if (e.target === msgModal) closeModal();
+        });
+    </script>
+</body>
+
+</html>

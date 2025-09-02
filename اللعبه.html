@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>🎮 لعبة تفاعلية - معلومات الحاسوب | المكتبة الرقمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg1: #04251f;
+            --bg2: #064b40;
+            --glass: rgba(255, 255, 255, 0.06);
+            --stroke: rgba(255, 255, 255, 0.12);
+            --gold: #ffd166;
+            --accent: #10b981;
+            --muted: #bcd9cf;
+            --card-radius: 16px;
+            --txt: #fff;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Cairo", sans-serif;
+            background: radial-gradient(800px 500px at 10% -10%, rgba(157, 141, 255, 0.02), transparent 35%), radial-gradient(900px 600px at 110% 10%, rgba(34, 211, 238, 0.03), transparent 35%), linear-gradient(160deg, var(--bg1), var(--bg2));
+            color: var(--txt);
+            -webkit-font-smoothing: antialiased;
+            padding: 28px;
+        }
+        
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--stroke);
+            padding: 12px 16px;
+            border-radius: 12px;
+            backdrop-filter: blur(8px) saturate(140%);
+            margin-bottom: 18px;
+        }
+        
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+        
+        .logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--accent), #3ee7b8);
+            color: #04251f;
+            font-weight: 800
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 1.05rem
+        }
+        
+        header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: .85rem
+        }
+        /* game layout */
+        
+        .game-area {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        
+        .panel {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--stroke);
+            border-radius: var(--card-radius);
+            padding: 18px;
+            backdrop-filter: blur(10px) saturate(130%);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        }
+        /* left: stats */
+        
+        .stats .score {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--gold);
+            text-align: center;
+            margin: 8px 0
+        }
+        
+        .stats .small {
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 12px
+        }
+        
+        .progress {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 999px;
+            overflow: hidden
+        }
+        
+        .progress>i {
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            width: 0%
+        }
+        
+        .controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 12px
+        }
+        
+        .btn {
+            padding: .6rem .9rem;
+            border-radius: 999px;
+            border: 1px solid var(--stroke);
+            background: var(--glass);
+            color: var(--txt);
+            cursor: pointer;
+            font-weight: 700
+        }
+        
+        .btn.primary {
+            background: linear-gradient(135deg, var(--accent), #3ee7b8);
+            color: #04251f;
+            border-color: transparent
+        }
+        
+        .btn.ghost {
+            background: transparent;
+            border: 1px dashed rgba(255, 255, 255, 0.06)
+        }
+        /* right: question card */
+        
+        .question-card {
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px
+        }
+        
+        .q-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+        
+        .q-index {
+            color: var(--muted);
+            font-weight: 700
+        }
+        
+        .q-text {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--gold)
+        }
+        
+        .answers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 6px
+        }
+        
+        .answer {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            color: var(--txt);
+            transition: all .18s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .answer:hover {
+            transform: translateY(-4px)
+        }
+        
+        .answer.locked {
+            cursor: default;
+            opacity: .95
+        }
+        
+        .answer.correct {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(255, 217, 102, 0.06));
+            border-color: rgba(16, 185, 129, 0.3)
+        }
+        
+        .answer.wrong {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.08), rgba(255, 255, 255, 0.02));
+            border-color: rgba(239, 68, 68, 0.18);
+            opacity: 0.95
+        }
+        
+        .footer-row {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px
+        }
+        
+        .small-muted {
+            color: var(--muted);
+            font-size: .95rem
+        }
+        /* responsive */
+        
+        @media (max-width:960px) {
+            .game-area {
+                grid-template-columns: 1fr
+            }
+        }
+        
+        @media (max-width:520px) {
+            .answers {
+                grid-template-columns: 1fr
+            }
+            .q-text {
+                font-size: 1.1rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <div class="brand">
+                <div class="logo">🎮</div>
+                <div>
+                    <h1>لعبة: حقائق الحاسوب</h1>
+                    <p>اختبر معلوماتك عن الحاسوب — اسحب إجاباتك أو اضغط عليها</p>
+                </div>
+            </div>
+            <div>
+                <button class="btn ghost" id="helpBtn">❔ تعليمات</button>
+            </div>
+        </header>
+
+        <main class="game-area">
+            <!-- left panel: stats -->
+            <aside class="panel stats">
+                <div class="small-muted">النقاط</div>
+                <div class="score" id="score">0</div>
+
+                <div class="small-muted">التقدم</div>
+                <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+                <div style="display:flex;justify-content:center;gap:10px;margin-top:10px">
+                    <div class="small-muted">سؤال <span id="currentIdx">0</span> / <span id="totalQ">0</span></div>
+                </div>
+
+                <div style="margin-top:18px">
+                    <div class="small-muted">الوقت المتبقي (لكل سؤال)</div>
+                    <div class="progress" style="height:8px"><i id="timeBar" style="width:100%;background:linear-gradient(90deg,#ffd166,#10b981)"></i></div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" id="prevBtn">⟵ السابق</button>
+                    <button class="btn primary" id="nextBtn">التالي ⟶</button>
+                    <button class="btn" id="restartBtn">🔄 إعادة</button>
+                </div>
+
+                <div style="margin-top:12px;text-align:center">
+                    <button class="btn" id="showAnswerBtn">إظهار الإجابة</button>
+                </div>
+            </aside>
+
+            <!-- right panel: question -->
+            <section class="panel question-card" aria-live="polite">
+                <div class="q-top">
+                    <div class="q-index" id="qIndexLabel">سؤال</div>
+                    <div class="small-muted" id="difficultyLabel"></div>
+                </div>
+
+                <div class="q-text" id="questionText">...</div>
+
+                <div class="answers" id="answersWrap">
+                    <!-- answers generated here -->
+                </div>
+
+                <div class="footer-row">
+                    <div class="small-muted" id="feedback"></div>
+                    <div>
+                        <button class="btn" id="skipBtn">تخطي</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        /**********************
+         * إعداد الأسئلة — عدّل أو أضف هنا
+         * كل سؤال: text، choices (مصفوفة)، answer (index الصحيح)، difficulty (اختياري)
+         **********************/
+        const questions = [{
+            text: "ما هو المكون الأساسي الذي يُحوّل البيانات الكهربائية إلى إشارات يمكن للحاسوب فهمها؟",
+            choices: ["المعالج (CPU)", "الذاكرة العشوائية (RAM)", "وحدة التخزين (HDD/SSD)", "بطاقة الشاشة (GPU)"],
+            answer: 0,
+            difficulty: "سهل"
+        }, {
+            text: "أي من التالي يُستخدم لتخزين الملفات بشكل دائم؟",
+            choices: ["RAM", "ROM", "القرص الصلب / SSD", "المعالج"],
+            answer: 2,
+            difficulty: "سهل"
+        }, {
+            text: "ما اختصار 'CPU'؟",
+            choices: ["Central Processing Unit", "Central Power Unit", "Computer Programming Unit", "Control Processing Unit"],
+            answer: 0,
+            difficulty: "سهل"
+        }, {
+            text: "ما وظيفة نظام التشغيل (OS)؟",
+            choices: ["إدارة موارد الحاسوب وتشغيل التطبيقات", "حماية الذاكرة فقط", "عرض صفحات الويب", "تسريع بطاقة الرسوميات"],
+            answer: 0,
+            difficulty: "متوسط"
+        }, {
+            text: "أي من التالي يُعد مثالاً على برمجيات مفتوحة المصدر؟",
+            choices: ["Microsoft Word", "Linux", "Adobe Photoshop", "Microsoft Windows"],
+            answer: 1,
+            difficulty: "متوسط"
+        }];
+
+        // state
+        let idx = 0,
+            score = 0,
+            total = questions.length;
+        let locked = false;
+        let timerId = null,
+            timeLeft = 15; // seconds per question
+        const timePerQuestion = 15;
+
+        // elements
+        const scoreEl = document.getElementById('score');
+        const progressBar = document.getElementById('progressBar');
+        const timeBar = document.getElementById('timeBar');
+        const qIndexLabel = document.getElementById('qIndexLabel');
+        const difficultyLabel = document.getElementById('difficultyLabel');
+        const questionText = document.getElementById('questionText');
+        const answersWrap = document.getElementById('answersWrap');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const showAnswerBtn = document.getElementById('showAnswerBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const feedback = document.getElementById('feedback');
+        const currentIdx = document.getElementById('currentIdx');
+        const totalQ = document.getElementById('totalQ');
+
+        totalQ.textContent = total;
+
+        // shuffle helper
+        function shuffle(arr) {
+            return arr.map(a => [Math.random(), a]).sort((a, b) => a[0] - b[0]).map(a => a[1]);
+        }
+
+        function startTimer() {
+            clearInterval(timerId);
+            timeLeft = timePerQuestion;
+            updateTimeBar();
+            timerId = setInterval(() => {
+                timeLeft--;
+                updateTimeBar();
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    autoTimeout();
+                }
+            }, 1000);
+        }
+
+        function updateTimeBar() {
+            const pct = Math.max(0, (timeLeft / timePerQuestion) * 100);
+            timeBar.style.width = pct + '%';
+        }
+
+        function renderQuestion(i) {
+            locked = false;
+            clearInterval(timerId);
+            updateScore();
+            currentIdx.textContent = i + 1;
+            qIndexLabel.textContent = `سؤال ${i+1}`;
+            difficultyLabel.textContent = questions[i].difficulty || '';
+            questionText.textContent = questions[i].text;
+            feedback.textContent = '';
+            answersWrap.innerHTML = '';
+            // build choices (keep original order)
+            questions[i].choices.forEach((ch, ci) => {
+                const btn = document.createElement('button');
+                btn.className = 'answer';
+                btn.setAttribute('data-i', ci);
+                btn.innerHTML = `<span style="font-weight:700">${String.fromCharCode(65+ci)}.</span> <span>${ch}</span>`;
+                btn.addEventListener('click', () => selectAnswer(ci, btn));
+                answersWrap.appendChild(btn);
+            });
+
+            // progress
+            const progressPct = ((i) / (total)) * 100;
+            progressBar.style.width = progressPct + '%';
+
+            startTimer();
+        }
+
+        function selectAnswer(choiceIndex, el) {
+            if (locked) return;
+            locked = true;
+            clearInterval(timerId);
+
+            const q = questions[idx];
+            const correctIndex = q.answer;
+
+            // mark UI
+            const answerBtns = Array.from(document.querySelectorAll('.answer'));
+            answerBtns.forEach((b) => b.classList.add('locked'));
+
+            if (choiceIndex === correctIndex) {
+                el.classList.add('correct');
+                feedback.textContent = 'إجابة صحيحة! +10 نقاط';
+                score += 10;
+            } else {
+                el.classList.add('wrong');
+                // highlight correct
+                const correctBtn = answerBtns.find(b => Number(b.dataset.i) === correctIndex);
+                if (correctBtn) correctBtn.classList.add('correct');
+                feedback.textContent = 'خطأ — الإجابة الصحيحة مُظلّلة';
+            }
+
+            updateScore();
+        }
+
+        function autoTimeout() {
+            // زمن السؤال انتهى -> اعرض الإجابة الصحيحة
+            locked = true;
+            const q = questions[idx];
+            const correctIndex = q.answer;
+            const answerBtns = Array.from(document.querySelectorAll('.answer'));
+            answerBtns.forEach((b) => {
+                b.classList.add('locked');
+                if (Number(b.dataset.i) === correctIndex) b.classList.add('correct');
+            });
+            feedback.textContent = 'انتهى الوقت — الإجابة الصحيحة مُظلّلة';
+        }
+
+        function updateScore() {
+            scoreEl.textContent = score;
+        }
+
+        function nextQuestion() {
+            if (idx < total - 1) {
+                idx++;
+                renderQuestion(idx);
+            } else {
+                finishGame();
+            }
+        }
+
+        function prevQuestion() {
+            if (idx > 0) {
+                idx--;
+                renderQuestion(idx);
+            }
+        }
+
+        function skipQuestion() { // treat as wrong/skip (no points)
+            clearInterval(timerId);
+            autoTimeout();
+            // after short delay go next
+            setTimeout(() => {
+                if (idx < total - 1) {
+                    idx++;
+                    renderQuestion(idx);
+                } else finishGame();
+            }, 800);
+        }
+
+        function showAnswer() {
+            if (locked) return;
+            locked = true;
+            clearInterval(timerId);
+            const q = questions[idx];
+            const correctIndex = q.answer;
+            const answerBtns = Array.from(document.querySelectorAll('.answer'));
+            answerBtns.forEach((b) => {
+                b.classList.add('locked');
+                if (Number(b.dataset.i) === correctIndex) b.classList.add('correct');
+            });
+            feedback.textContent = 'الإجابة الصحيحة مُظلّلة';
+        }
+
+        function finishGame() {
+            clearInterval(timerId);
+            progressBar.style.width = '100%';
+            questionText.textContent = `انتهت اللعبة! مجموع نقاطك: ${score} من ${total*10}`;
+            answersWrap.innerHTML = `<div style="text-align:center;color:var(--muted) ;">اضغط إعادة للعب أو راجع الأسئلة.</div>`;
+            feedback.textContent = '';
+        }
+
+        function restartGame() {
+            idx = 0;
+            score = 0;
+            // لو حابب: امزج الأسئلة عشوائياً
+            //questions = shuffle(questions); // لا تفعل هذا لو تريد حفظ الفهرسة
+            renderQuestion(idx);
+            updateScore();
+        }
+
+        // events
+        nextBtn.addEventListener('click', () => {
+            // إذا الإجابة لم تُعطَ وlocked=false يمكن اعتبارها تخطي سريع
+            if (!locked) {
+                skipQuestion();
+            } else {
+                nextQuestion();
+            }
+        });
+        prevBtn.addEventListener('click', () => prevQuestion());
+        restartBtn.addEventListener('click', () => {
+            if (confirm('إعادة بدء اللعبة؟')) restartGame();
+        });
+        showAnswerBtn.addEventListener('click', showAnswer);
+        skipBtn.addEventListener('click', skipQuestion);
+        document.getElementById('helpBtn').addEventListener('click', () => {
+            alert('تعليمات اللعبة:\n\n- اقرأ السؤال واضغط على الإجابة الصحيحة.\n- لديك 15 ثانية لكل سؤال.\n- كل إجابة صحيحة تعطي 10 نقاط.\n- اضغط التالي للتقدم، أو تخطي للانتقال مع إظهار الإجابة.\n- اضغط إعادة لإعادة اللعبة.');
+        });
+
+        // init
+        total = questions.length;
+        document.getElementById('totalQ').textContent = total;
+        renderQuestion(0);
+    </script>
+    <!-- زر الرجوع -->
+    <div class="back-button">
+        <a href="Index.html"><i class="fas fa-arrow-left"></i> الرجوع للرئيسية</a>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>الكادر التدريسي | مدرسة سلمى بنت عمرو الأساسية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg1: #04251f;
+            --bg2: #064b40;
+            --glass: rgba(255, 255, 255, 0.08);
+            --stroke: rgba(255, 255, 255, 0.12);
+            --gold: #ffd166;
+            --accent: #10b981;
+            --muted: #bcd9cf;
+            --card-radius: 18px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: linear-gradient(160deg, var(--bg1), var(--bg2));
+            color: #fff;
+            padding-bottom: 80px;
+        }
+        
+        .wrap {
+            max-width: 1200px;
+            margin: 28px auto;
+            padding: 18px;
+        }
+        
+        header.topbar {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+            border: 1px solid var(--stroke);
+            padding: 12px 18px;
+            border-radius: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(8px) saturate(140%);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+        }
+        
+        .brand h1 {
+            font-size: 1.05rem;
+            margin: 0;
+        }
+        
+        .brand p {
+            margin: 0;
+            font-size: .84rem;
+            color: var(--muted);
+        }
+        
+        .btn {
+            padding: .55rem .9rem;
+            border-radius: 999px;
+            border: 1px solid var(--stroke);
+            background: var(--glass);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            gap: .6rem;
+            align-items: center;
+            transition: all .18s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+        
+        .btn.primary {
+            background: linear-gradient(135deg, var(--accent), #3ee7b8);
+            color: #04251f;
+            border-color: transparent;
+        }
+        
+        .hero {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 18px;
+        }
+        
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--stroke);
+            border-radius: var(--card-radius);
+            padding: 22px;
+            backdrop-filter: blur(12px) saturate(140%);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+        }
+        
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            color: #04251f;
+            margin: 0 auto 10px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+        
+        .profile-name {
+            font-weight: 800;
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+        
+        .profile-role {
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+        
+        .stars {
+            color: #ffd700;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        
+        .praise {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+        
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            padding: .55rem .7rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            font-size: 0.85rem;
+        }
+        
+        .contact-item span.val {
+            font-weight: 700;
+            color: var(--gold);
+        }
+        
+        footer {
+            margin-top: 26px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .86rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header class="topbar">
+            <div class="brand">
+                <h1>مدرسة سلمى بنت عمرو الأساسية — الجفر</h1>
+                <p>صفحة الكادر التدريسي</p>
+            </div>
+            <div class="top-actions">
+                <a href="index.html" class="btn">← العودة</a>
+            </div>
+        </header>
+
+        <section class="hero">
+            <!-- معلمة نموذجية -->
+            <div class="card">
+                <div class="profile-photo">ا.ص</div>
+                <div class="profile-name">المعلمة صالحة ابوتايه</div>
+                <div class="profile-role">معلمة التربية الاسلامية </div>
+                <div class="stars">★★★★★</div>
+                <div class="praise">أفضل معلمة تشجع الطلاب على حب التعلم!</div>
+                <div class="contact-list">
+                    <div class="contact-item"><span>البريد الإلكتروني</span><span class="val">mariam.ahmed@school.jo</span></div>
+                    <div class="contact-item"><span>هاتف</span><span class="val">+962 79 *******</span></div>
+                </div>
+                <button class="btn primary" onclick="alert('يمكنك إرسال رسالة للمعلمة')">✉️ إرسال رسالة</button>
+            </div>
+
+            <div class="card">
+                <div class="profile-photo">ا.ز</div>
+                <div class="profile-name">المعلمة زينب الدمانية</div>
+                <div class="profile-role">معلمة الرياضيات والعلوم</div>
+                <div class="stars">★★★★★</div>
+                <div class="praise">تبدع في تبسيط الدروس وجعلها ممتعة!</div>
+                <div class="contact-list">
+                    <div class="contact-item"><span>البريد الإلكتروني</span><span class="val">sara.nassar@school.jo</span></div>
+                    <div class="contact-item"><span>هاتف</span><span class="val">+962 79 *******</span></div>
+                </div>
+                <button class="btn primary" onclick="alert('يمكنك إرسال رسالة للمعلمة')">✉️ إرسال رسالة</button>
+            </div>
+
+            <div class="card">
+                <div class="profile-photo">ا.م</div>
+                <div class="profile-name">المعلمة مريم الركيبات</div>
+                <div class="profile-role">معلمة صف </div>
+                <div class="stars">★★★★★</div>
+                <div class="praise">تتميز بالصبر والتفاني في تعليم الطلاب!</div>
+                <div class="contact-list">
+                    <div class="contact-item"><span>البريد الإلكتروني</span><span class="val">maryam.rukibat@school.jo</span></div>
+                    <div class="contact-item"><span>هاتف</span><span class="val">+962 79 *******</span></div>
+                </div>
+                <button class="btn primary" onclick="alert('يمكنك إرسال رسالة للمعلمة')">✉️ إرسال رسالة</button>
+            </div>
+
+            <div class="card">
+                <div class="profile-photo">ا.ع</div>
+                <div class="profile-name">المعلمة عبير العثامنة</div>
+                <div class="profile-role">معلمة اللغة اللعربية</div>
+                <div class="stars">★★★★★</div>
+                <div class="praise">تلهم الطلاب دائمًا وتدعمهم بكل حب!</div>
+                <div class="contact-list">
+                    <div class="contact-item"><span>البريد الإلكتروني</span><span class="val">abeer.othamneh@school.jo</span></div>
+                    <div class="contact-item"><span>هاتف</span><span class="val">+962 79 *******</span></div>
+                </div>
+                <button class="btn primary" onclick="alert('يمكنك إرسال رسالة للمعلمة')">✉️ إرسال رسالة</button>
+            </div>
+            <!-- بطاقة المعلمة سلطانة النواصره -->
+            <div class="card">
+                <div class="profile-photo">ا.س</div>
+                <div class="profile-name">المعلمة سلطانة النواصره</div>
+                <div class="profile-role">معلمة صف </div>
+                <div class="stars">★★★★★</div>
+                <div class="praise">معلمة موهوبة وملتزمة بتطوير مهارات الطلاب!</div>
+                <div class="contact-list">
+                    <div class="contact-item"><span>البريد الإلكتروني</span><span class="val">sultana.nawasreh@school.jo</span></div>
+                    <div class="contact-item"><span>هاتف</span><span class="val">+962 79 *******</span></div>
+                </div>
+                <button class="btn primary" onclick="alert('يمكنك إرسال رسالة للمعلمة')">✉️ إرسال رسالة</button>
+            </div>
+            <!-- بطاقة المعلمة سلطانة ابوتايه -->
+            <div class="card">
+                <div class="profile-photo">ا.س</div>
+                <div class="profile-name">المعلمة سلطانة ابوتايه</div>
+                <div class="profile-role">معلمة صف </div>
+                <div class="stars">★★★★★</div>
+                <div class="praise">معلمة رائعة دائمًا تدعم طلابها وتشجعهم على الإبداع!</div>
+                <div class="contact-list">
+                    <div class="contact-item"><span>البريد الإلكتروني</span><span class="val">sultana.abutayeh@school.jo</span></div>
+                    <div class="contact-item"><span>هاتف</span><span class="val">+962 79 *******</span></div>
+                </div>
+                <button class="btn primary" onclick="alert('يمكنك إرسال رسالة للمعلمة')">✉️ إرسال رسالة</button>
+            </div>
+
+            <div class="card">
+                <div class="profile-photo">ا.ا</div>
+                <div class="profile-name">المعلمة ألاء ابوتايه</div>
+                <div class="profile-role">معلمة اللغة الانجليزية</div>
+                <div class="stars">★★★★★</div>
+                <div class="praise">تتميز بالإبداع وتحفيز الطلاب على التفوق!</div>
+                <div class="contact-list">
+                    <div class="contact-item"><span>البريد الإلكتروني</span><span class="val">ala.abutayeh@school.jo</span></div>
+                    <div class="contact-item"><span>هاتف</span><span class="val">+962 79 *******</span></div>
+                </div>
+                <button class="btn primary" onclick="alert('يمكنك إرسال رسالة للمعلمة')">✉️ إرسال رسالة</button>
+            </div>
+        </section>
+
+        <footer>
+            <p>© جميع الحقوق محفوظة — مدرسة سلمى بنت عمرو الأساسية / الجفر — 2025</p>
+        </footer>
+    </div>
+</body>
+
+</html>

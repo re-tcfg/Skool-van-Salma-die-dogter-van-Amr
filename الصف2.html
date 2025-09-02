@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 المكتبة الرقمية - مدرسة الجفر</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: linear-gradient(135deg, #004d40, #00796b);
+            color: #fff;
+        }
+        
+        header {
+            background: rgba(0, 77, 64, 0.7);
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd700;
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        
+        .search-box {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .search-box input {
+            width: 80%;
+            max-width: 500px;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .resources-grid,
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .resource-card,
+        .file-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        
+        .resource-card:hover,
+        .file-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resource-title,
+        .file-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+        }
+        
+        .resource-type,
+        .file-box p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #c8e6c9;
+        }
+        
+        .resource-btn,
+        .file-box a {
+            background: #ffd700;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            text-decoration: none;
+            color: #04251f;
+            display: inline-block;
+        }
+        
+        .resource-btn:hover,
+        .file-box a:hover {
+            background: #ffeb3b;
+            transform: scale(1.05);
+        }
+        
+        .file-box .number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffd166;
+        }
+        
+        .file-box i {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+            color: #10b981;
+        }
+        
+        .back-button {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .back-button a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            background: #064b40;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        
+        .back-button a:hover {
+            background: #10b981;
+        }
+        /* مودال */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #fff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content h2 {
+            margin-top: 0;
+            color: #00796b;
+        }
+        
+        .modal-content button {
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: #00796b;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .modal-content button:hover {
+            background: #004d40;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>📚 المكتبة الرقمية - مدرسة سلمى بنت عمرو </header>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 ابحث عن مورد أو ملف">
+        </div>
+
+        <div class="resources-grid" id="resourcesGrid"></div>
+    </div>
+
+    <!-- مودال الموارد -->
+    <div class="modal" id="resourceModal">
+        <div class="modal-content">
+            <h2 id="modalTitle"></h2>
+            <p id="modalType"></p>
+            <p id="modalSubject"></p>
+            <button onclick="closeModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- بوكسات الملفات -->
+    <section class="files-grid">
+        <div class="file-box">
+            <span class="number">1</span>
+            <i class="fas fa-book-open"></i>
+            <h3>الكتاب المادة</h3>
+            <p>كتاب مادة المهارات الرقمية - الصف الثاني</p>
+            <a href="الكتب/الصف2.pdf" download>⬇️ تحميل</a>
+        </div>
+
+        <div class="file-box">
+            <span class="number">2</span>
+            <i class="fas fa-book-open"></i>
+            <h3>المقدمة</h3>
+            <p>ملف بوربوينت يشرح مقدمة عن العروض التقديمية.</p>
+            <a href="الكتب/مقدمة صف 2.pdf" download>⬇️ تحميل</a>
+        </div>
+
+        <div class="file-box">
+            <span class="number">3</span>
+            <i class="fas fa-video"></i>
+            <h3>الفيديوهات</h3>
+            <p>رابط لمشاهدة فيديوهات شرح العروض التقديمي.</p>
+            <a href="https://youtu.be/iNuag1dSqNw?si=NasyRA5bfjcB1koY" target="_blank">▶️ مشاهدة</a>
+        </div>
+
+
+        <div class="file-box">
+            <span class="number">4</span>
+            <i class="fas fa-video"></i>
+            <h3>الفيديوهات</h3>
+            <p>رابط لمشاهدة فيديوهات شرح خطوات عمل العروض التقديمي.</p>
+            <a href="https://youtu.be/H-ffAS1ngHw?si=fJSnhedOGBRnzMFC" target="_blank">▶️ مشاهدة</a>
+        </div>
+
+        <div class="file-box">
+            <span class="number">5</span>
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3> لعبة تفاعلية </h3>
+            <p>لعبة تفاعلية لاختبار معلوماتك حول الكائنات الحية.</p>
+            <a href="لعبة صف 2.html" download>⬇️ لعب</a>
+        </div>
+    </section>
+
+    <!-- زر الرجوع -->
+    <div class="back-button">
+        <a href="Index.html"><i class="fas fa-arrow-left"></i> الرجوع للرئيسية</a>
+    </div>
+
+</body>
+
+</html>

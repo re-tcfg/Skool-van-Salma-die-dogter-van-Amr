@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>لعبة صنع الشعارات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ألوان ونمط مشابه للذي طلبته */
+        
+         :root {
+            --bg1: #004d40;
+            --bg2: #00796b;
+            --accent: #ffd700;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --muted: #c8e6c9;
+            --dark: #04251f;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            direction: rtl;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(0, 77, 64, 0.7);
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-size: 1.6rem;
+            color: var(--accent);
+            font-weight: 800;
+            backdrop-filter: blur(8px)
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 1.5rem auto;
+            padding: 1rem
+        }
+        
+        .grid {
+            display: grid;
+            gap: 1rem
+        }
+        
+        .grid-2 {
+            grid-template-columns: 1fr 420px
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 1rem;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25)
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: var(--muted);
+            font-weight: 700
+        }
+        
+        input[type=text],
+        select,
+        textarea,
+        input[type=color],
+        input[type=number] {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 10px;
+            border: none;
+            outline: none
+        }
+        
+        .row {
+            display: flex;
+            gap: 0.6rem
+        }
+        
+        .row .col {
+            flex: 1
+        }
+        
+        .small {
+            font-size: 0.85rem;
+            color: #e6fffa
+        }
+        
+        .emoji-picker {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap
+        }
+        
+        .emoji-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 0.5rem 0.6rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.25rem
+        }
+        
+        .emoji-btn.active {
+            outline: 3px solid rgba(255, 215, 0, 0.35);
+            transform: translateY(-3px)
+        }
+        
+        .shapes {
+            display: flex;
+            gap: 0.5rem
+        }
+        
+        .shape {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.03)
+        }
+        
+        .shape.active {
+            border-color: var(--accent);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px)
+        }
+        
+        .actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap
+        }
+        
+        .btn {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 800
+        }
+        
+        .btn.ghost {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.12)
+        }
+        /* preview */
+        
+        .preview-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .logo-canvas {
+            width: 360px;
+            height: 360px;
+            background: #fff;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border: 8px solid var(--accent);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.35);
+            color: var(--dark)
+        }
+        
+        .logo-shape {
+            width: 220px;
+            height: 220px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--shape-bg, #e8fff7)
+        }
+        
+        .logo-shape.circle {
+            border-radius: 50%
+        }
+        
+        .logo-icon {
+            font-size: 76px
+        }
+        
+        .logo-name {
+            margin-top: 12px;
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--dark);
+            text-align: center
+        }
+        
+        .logo-slogan {
+            font-size: 13px;
+            color: #2b5a50;
+            text-align: center
+        }
+        
+        .template-row {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem
+        }
+        
+        .tpl {
+            background: rgba(0, 0, 0, 0.06);
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer
+        }
+        
+        .saved-list {
+            max-height: 140px;
+            overflow: auto;
+            margin-top: 0.6rem
+        }
+        
+        footer {
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--muted)
+        }
+        /* responsive */
+        
+        @media(max-width:900px) {
+            .grid-2 {
+                grid-template-columns: 1fr
+            }
+            .logo-canvas {
+                width: 300px;
+                height: 300px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>🎨 لعبة صنع الشعارات — صمم لوغو فريقك</header>
+    <div class="container">
+        <div class="grid grid-2">
+            <div class="card">
+                <h3 style="color:var(--accent);margin:0 0 0.6rem 0;font-weight:800">أدوات التصميم</h3>
+
+                <div class="grid">
+                    <div>
+                        <label>اسم المؤسسة / الفريق</label>
+                        <input id="orgName" type="text" placeholder="مثال: فريق البيئة" />
+                    </div>
+
+                    <div>
+                        <label>شعار صغير (سطر ثانٍ - اختياري)</label>
+                        <input id="slogan" type="text" placeholder="مثال: نحمي بيئتنا" />
+                    </div>
+
+                    <div>
+                        <label>اختر أيقونة (إيموجي) بسرعة</label>
+                        <div class="emoji-picker" id="emojiPicker">
+                            <!-- emojis injected by JS -->
+                        </div>
+                        <div class="small" style="margin-top:6px">أو اكتب أي رمز/حرف في خانة الاسم وسيظهر بدلاً منه.</div>
+                    </div>
+
+                    <div>
+                        <label>شكل الشعار</label>
+                        <div class="shapes" id="shapes">
+                            <div class="shape active" data-shape="circle">●</div>
+                            <div class="shape" data-shape="rounded">■</div>
+                            <div class="shape" data-shape="hex">⬡</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label>اللون الأساسي (خلفية الشكل)</label>
+                            <input id="colorPrimary" type="color" value="#e8fff7" />
+                        </div>
+                        <div class="col">
+                            <label>لون النص/الأيقونة</label>
+                            <input id="colorText" type="color" value="#04251f" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <label>حجم الأيقونة (px)</label>
+                            <input id="iconSize" type="number" min="28" max="160" value="76" />
+                        </div>
+                        <div class="col">
+                            <label>حجم الاسم (px)</label>
+                            <input id="nameSize" type="number" min="12" max="40" value="20" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>قوالب سريعة</label>
+                        <div class="template-row" id="templates">
+                            <!-- templates injected -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>حفظ / استعادة الشعارات</label>
+                        <div class="actions">
+                            <button class="btn" id="saveTpl">حفظ الشعار</button>
+                            <button class="btn ghost" id="clearAll">مسح المحرر</button>
+                            <button class="btn ghost" id="loadSaved">قائمة المحفوظات</button>
+                        </div>
+                        <div class="saved-list card" id="savedList" style="display:none;margin-top:8px"></div>
+                    </div>
+
+                    <div>
+                        <label>خيارات نهائية</label>
+                        <div class="actions">
+                            <button class="btn" id="downloadBtn">تحميل PNG</button>
+                            <button class="btn" id="printBtn">طباعة</button>
+                            <button class="btn ghost" id="exportSvg">حفظ SVG</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <h3 style="color:var(--accent);margin:0 0 0.6rem 0;font-weight:800">معاينة الشعار</h3>
+                <div class="preview-wrap">
+                    <div id="logo" class="logo-canvas" role="img" aria-label="شعار">
+                        <div id="shape" class="logo-shape circle" style="background:#e8fff7">
+                            <div id="icon" class="logo-icon">🌿</div>
+                        </div>
+                        <div id="nameText" class="logo-name">فريق البيئة</div>
+                        <div id="sloganText" class="logo-slogan">نحمي بيئتنا</div>
+                    </div>
+                </div>
+
+                <!-- زر الرجوع -->
+                <div class="back-button">
+                    <a href="Index.html"><i class="fas fa-arrow-left"></i> الرجوع للرئيسية</a>
+                </div>
+            </div>
+
+            <footer>
+                <small>© 2025 جميع الحقوق محفوظة لمدرسة سلمى بنت عمرو الأساسية / الجفر</small>
+            </footer>
+        </div>
+
+        <!-- html2canvas -->
+        <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+        <script>
+            // عناصر
+            const emojiPicker = document.getElementById('emojiPicker');
+            const emojis = ['🌿', '🌱', '🌳', '🌾', '🌼', '🌸', '🌊', '☘️', '🐝', '🦋', '🔬', '🧭', '⚕️', '♻️', '🌍', '🪴', '🔥', '⭐', '🔆'];
+            const orgName = document.getElementById('orgName');
+            const slogan = document.getElementById('slogan');
+            const icon = document.getElementById('icon');
+            const shape = document.getElementById('shape');
+            const nameText = document.getElementById('nameText');
+            const sloganText = document.getElementById('sloganText');
+
+            const shapes = document.getElementById('shapes');
+            const colorPrimary = document.getElementById('colorPrimary');
+            const colorText = document.getElementById('colorText');
+            const iconSize = document.getElementById('iconSize');
+            const nameSize = document.getElementById('nameSize');
+
+            const templates = document.getElementById('templates');
+            const saveBtn = document.getElementById('saveTpl');
+            const clearBtn = document.getElementById('clearAll');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const printBtn = document.getElementById('printBtn');
+            const exportSvg = document.getElementById('exportSvg');
+            const loadSaved = document.getElementById('loadSaved');
+            const savedList = document.getElementById('savedList');
+
+            // ملء emojis
+            emojis.forEach(e => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'emoji-btn';
+                b.innerText = e;
+                b.addEventListener('click', () => {
+                    document.querySelectorAll('.emoji-btn').forEach(x => x.classList.remove('active'));
+                    b.classList.add('active');
+                    icon.innerText = e;
+                    updatePreview();
+                });
+                emojiPicker.appendChild(b);
+            });
+
+            // أشكال
+            shapes.querySelectorAll('.shape').forEach(s => {
+                s.addEventListener('click', () => {
+                    shapes.querySelectorAll('.shape').forEach(x => x.classList.remove('active'));
+                    s.classList.add('active');
+                    const shp = s.dataset.shape;
+                    shape.className = 'logo-shape ' + (shp === 'circle' ? 'circle' : shp === 'rounded' ? 'rounded' : 'hex');
+                    if (shp === 'hex') {
+                        shape.style.borderRadius = '18px';
+                    } else if (shp === 'rounded') {
+                        shape.style.borderRadius = '18px';
+                    } else shape.style.borderRadius = '50%';
+                    updatePreview();
+                })
+            });
+
+            // قوالب سريعة
+            const TEMPLATES = [{
+                name: 'لوغو علمي',
+                emoji: '🔬',
+                color: '#e8fff7',
+                text: '#04251f',
+                org: 'مختبر صغير',
+                slog: 'اكتشاف وحماية'
+            }, {
+                name: 'لوغو بيئة',
+                emoji: '🌍',
+                color: '#e7ffef',
+                text: '#043a2f',
+                org: 'حماة الطبيعة',
+                slog: 'نحن نرعى'
+            }, {
+                name: 'لوغو زراعي',
+                emoji: '🌾',
+                color: '#fff3e0',
+                text: '#5b3e00',
+                org: 'مزارع المستقبل',
+                slog: 'نزرع للأجيال'
+            }];
+            // إضافة القوالب
+            TEMPLATES.forEach(t => {
+                const d = document.createElement('div');
+                d.className = 'tpl';
+                d.title = t.name;
+                d.innerHTML = `<div style="font-size:22px">${t.emoji}</div><div style="font-size:12px;margin-top:4px;color:var(--muted)">${t.name}</div>`;
+                d.addEventListener('click', () => {
+                    applyTemplate(t);
+                });
+                templates.appendChild(d);
+            });
+
+            function applyTemplate(t) {
+                icon.innerText = t.emoji;
+                colorPrimary.value = t.color;
+                colorText.value = t.text;
+                orgName.value = t.org;
+                slogan.value = t.slog;
+                updatePreview();
+            }
+
+            // تحديث المعاينة
+            function updatePreview() {
+                // الأيقونة والنص
+                nameText.textContent = orgName.value.trim() || 'اسم الفريق';
+                sloganText.textContent = slogan.value.trim() || '';
+                icon.style.fontSize = (parseInt(iconSize.value) || 76) + 'px';
+                nameText.style.fontSize = (parseInt(nameSize.value) || 20) + 'px';
+                // ألوان
+                shape.style.background = colorPrimary.value;
+                icon.style.color = colorText.value;
+                nameText.style.color = colorText.value;
+                sloganText.style.color = tinyColor(colorText.value, -30);
+                // شكل حدود خاصة
+                updateShapeStyle();
+            }
+
+            function updateShapeStyle() {
+                // اضبط حدود الشكل حسب لونه
+                const bg = colorPrimary.value;
+                // لو كان لون فاتح اجعل حدودًا قاتمة
+                shape.style.border = '4px dashed rgba(0,0,0,0.06)';
+            }
+
+            // تحميل PNG
+            downloadBtn.addEventListener('click', () => {
+                html2canvas(document.getElementById('logo'), {
+                    scale: 2
+                }).then(c => {
+                    const a = document.createElement('a');
+                    a.download = 'logo.png';
+                    a.href = c.toDataURL('image/png');
+                    a.click();
+                });
+            });
+
+            // طباعة
+            printBtn.addEventListener('click', () => {
+                html2canvas(document.getElementById('logo'), {
+                    scale: 2
+                }).then(c => {
+                    const w = window.open('', '_blank');
+                    w.document.write('<html><head><title>طباعة الشعار</title></head><body style="display:flex;justify-content:center">');
+                    w.document.body.appendChild(c);
+                    w.document.write('</body></html>');
+                });
+            });
+
+            // حفظ القالب محليًا
+            function getSaved() {
+                try {
+                    return JSON.parse(localStorage.getItem('savedLogos') || '[]');
+                } catch (e) {
+                    return []
+                }
+            }
+
+            function saveLogo() {
+                const s = getSaved();
+                const obj = {
+                    org: orgName.value || '',
+                    slogan: slogan.value || '',
+                    emoji: icon.innerText,
+                    color: colorPrimary.value,
+                    text: colorText.value,
+                    iconSize: iconSize.value,
+                    nameSize: nameSize.value,
+                    shape: shape.className
+                };
+                s.push(obj);
+                localStorage.setItem('savedLogos', JSON.stringify(s));
+                alert('تم حفظ الشعار محلياً');
+            }
+            saveBtn.addEventListener('click', saveLogo);
+
+            // عرض المحفوظات
+            loadSaved.addEventListener('click', () => {
+                const s = getSaved();
+                savedList.innerHTML = '';
+                if (s.length === 0) {
+                    savedList.style.display = 'block';
+                    savedList.innerHTML = '<div class="small">لا توجد محفوظات</div>';
+                    return;
+                }
+                savedList.style.display = 'block';
+                s.slice().reverse().forEach((it, idx) => {
+                    const el = document.createElement('div');
+                    el.style.display = 'flex';
+                    el.style.justifyContent = 'space-between';
+                    el.style.alignItems = 'center';
+                    el.style.padding = '6px';
+                    el.innerHTML = `<div style="display:flex;align-items:center;gap:8px"><div style='font-size:22px'>${it.emoji}</div><div><div style='font-weight:700'>${it.org||'—'}</div><div style='font-size:12px;color:var(--muted)'>${it.slogan||''}</div></div></div>`;
+                    const btns = document.createElement('div');
+                    btns.style.display = 'flex';
+                    btns.style.gap = '6px';
+                    const loadBtn = document.createElement('button');
+                    loadBtn.className = 'btn ghost';
+                    loadBtn.textContent = 'اختار';
+                    loadBtn.addEventListener('click', () => {
+                        orgName.value = it.org;
+                        slogan.value = it.slogan;
+                        icon.innerText = it.emoji;
+                        colorPrimary.value = it.color;
+                        colorText.value = it.text;
+                        iconSize.value = it.iconSize;
+                        nameSize.value = it.nameSize;
+                        updatePreview();
+                    });
+                    const delBtn = document.createElement('button');
+                    delBtn.className = 'btn ghost';
+                    delBtn.textContent = 'حذف';
+                    delBtn.addEventListener('click', () => {
+                        const arr = getSaved();
+                        arr.splice(arr.length - 1 - idx, 1);
+                        localStorage.setItem('savedLogos', JSON.stringify(arr));
+                        loadSaved.click();
+                    });
+                    btns.appendChild(loadBtn);
+                    btns.appendChild(delBtn);
+                    el.appendChild(btns);
+                    savedList.appendChild(el);
+                });
+            });
+
+            // مسح المحرر
+            clearBtn.addEventListener('click', () => {
+                if (confirm('مسح كل الحقول؟')) {
+                    orgName.value = '';
+                    slogan.value = '';
+                    icon.innerText = '🌿';
+                    document.querySelectorAll('.emoji-btn').forEach(x => x.classList.remove('active'));
+                    colorPrimary.value = '#e8fff7';
+                    colorText.value = '#04251f';
+                    iconSize.value = '76';
+                    nameSize.value = '20';
+                    updatePreview();
+                }
+            });
+
+            // تصدير SVG (تبسيطي)
+            exportSvg.addEventListener('click', () => {
+                const svg = `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'>` +
+                    `<rect width='100%' height='100%' fill='white'/>` +
+                    `<g transform='translate(300,220)'>` +
+                    `<rect x='-110' y='-110' width='220' height='220' rx='${shape.classList.contains('circle')?110:18}' fill='${colorPrimary.value}'/>` +
+                    `<text x='0' y='10' text-anchor='middle' font-size='120' font-family='"Cairo",sans-serif' fill='${colorText.value}'>${icon.innerText}</text>` +
+                    `</g>` +
+                    `<text x='300' y='420' text-anchor='middle' font-family='"Cairo",sans-serif' font-size='28' fill='${colorText.value}'>${escapeXml(orgName.value)}</text>` +
+                    `<text x='300' y='452' text-anchor='middle' font-family='"Cairo",sans-serif' font-size='16' fill='${tinyColor(colorText.value,-30)}'>${escapeXml(slogan.value)}</text>` +
+                    `</svg>`;
+                const blob = new Blob([svg], {
+                    type: 'image/svg+xml'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'logo.svg';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+
+            // أدوات مساعدة
+            function escapeXml(s) {
+                return (s || '').replace(/[&<>\"']/g, function(c) {
+                    return {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": "&apos;"
+                    }[c];
+                });
+            }
+
+            function tinyColor(hex, amt) { // إرجاع لون أغمق/أفتح بسيط
+                try {
+                    hex = hex.replace('#', '');
+                    var num = parseInt(hex, 16);
+                    var r = (num >> 16) + amt;
+                    var g = (num >> 8 & 0x00FF) + amt;
+                    var b = (num & 0x0000FF) + amt;
+                    r = Math.max(0, Math.min(255, r));
+                    g = Math.max(0, Math.min(255, g));
+                    b = Math.max(0, Math.min(255, b));
+                    return '#' + (r << 16 | g << 8 | b).toString(16).padStart(6, '0');
+                } catch (e) {
+                    return hex
+                }
+            }
+
+            // تهيئة
+            orgName.addEventListener('input', updatePreview);
+            slogan.addEventListener('input', updatePreview);
+            colorPrimary.addEventListener('input', updatePreview);
+            colorText.addEventListener('input', updatePreview);
+            iconSize.addEventListener('input', updatePreview);
+            nameSize.addEventListener('input', updatePreview);
+
+            // معاينة أولية
+            updatePreview();
+        </script>
+</body>
+
+</html>

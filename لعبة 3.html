@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>🎧 لعبة مطابقة الأدوات الرقمية</title>
+    <style>
+        body {
+            font-family: Cairo, sans-serif;
+            background: linear-gradient(135deg, #004d40, #00796b);
+            color: #fff;
+            padding: 20px;
+            text-align: center
+        }
+        
+        .wrap {
+            max-width: 900px;
+            margin: 0 auto
+        }
+        
+        h1 {
+            color: #ffd166
+        }
+        
+        .board {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 18px
+        }
+        
+        .icons,
+        .names {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 45%
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: grab
+        }
+        
+        .drop {
+            min-height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+        
+        .success {
+            outline: 3px solid #10b981
+        }
+        
+        .wrong {
+            outline: 3px solid #ef4444
+        }
+        
+        .btn {
+            margin-top: 12px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: none;
+            background: #ffd166;
+            color: #04251f;
+            font-weight: 700;
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>مطابقة الأدوات الرقمية مع أيقوناتها 🎮</h1>
+        <p>اسحب اسم الأداة وأفلته على الأيقونة المناسبة.</p>
+
+        <div class="board">
+            <div class="icons" id="icons">
+                <div class="card drop" data-key="search">🔎 محرك بحث</div>
+                <div class="card drop" data-key="browser">🌐 متصفح</div>
+                <div class="card drop" data-key="word">📄 محرر نصوص (Word)</div>
+                <div class="card drop" data-key="os">🪟 نظام التشغيل (Windows)</div>
+            </div>
+
+            <div class="names" id="names">
+                <div class="card" draggable="true" data-key="browser">Google Chrome / Edge</div>
+                <div class="card" draggable="true" data-key="word">MS Word</div>
+                <div class="card" draggable="true" data-key="os">Windows</div>
+                <div class="card" draggable="true" data-key="search">Google / Bing</div>
+            </div>
+        </div>
+
+        <button class="btn" id="checkBtn">تحقق من الإجابات</button>
+        <p id="result" style="margin-top:12px"></p>
+    </div>
+
+    <!-- أصوات -->
+    <audio id="correctSound" src="الكتب/صوت.mp3"></audio>
+    <audio id="wrongSound" src="الكتب/الخطا.mp3"></audio>
+
+
+    <script>
+        const draggables = document.querySelectorAll('#names .card');
+        const drops = document.querySelectorAll('#icons .drop');
+        const correctSound = document.getElementById("correctSound");
+        const wrongSound = document.getElementById("wrongSound");
+
+        draggables.forEach(d => {
+            d.addEventListener('dragstart', e => {
+                e.dataTransfer.setData('text/plain', d.dataset.key);
+                setTimeout(() => d.classList.add('hide'), 0);
+            });
+            d.addEventListener('dragend', () => d.classList.remove('hide'));
+        });
+
+        drops.forEach(drop => {
+            drop.addEventListener('dragover', e => e.preventDefault());
+            drop.addEventListener('drop', e => {
+                e.preventDefault();
+                const key = e.dataTransfer.getData('text/plain');
+                drop.innerHTML = '';
+                const el = document.querySelector(`#names .card[data-key="${key}"]`);
+                if (el) {
+                    const clone = el.cloneNode(true);
+                    clone.setAttribute('draggable', false);
+                    drop.appendChild(clone);
+                    clone.style.cursor = 'default';
+                }
+            });
+        });
+
+        document.getElementById('checkBtn').addEventListener('click', () => {
+            let correct = 0;
+            drops.forEach(d => {
+                const expected = d.dataset.key;
+                const child = d.querySelector('.card');
+                if (child && child.dataset.key === expected) {
+                    d.classList.remove('wrong');
+                    d.classList.add('success');
+                    correct++;
+                } else {
+                    d.classList.remove('success');
+                    d.classList.add('wrong');
+                }
+            });
+
+            document.getElementById('result').textContent = `الإجابات الصحيحة: ${correct} من ${drops.length}`;
+
+            // تشغيل صوت حسب النتيجة
+            if (correct === drops.length) {
+                correctSound.play();
+            } else {
+                wrongSound.play();
+            }
+        });
+    </script>
+    <!-- زر الرجوع -->
+    <div class="back-button">
+        <a href="Index.html"><i class="fas fa-arrow-left"></i> الرجوع للرئيسية</a>
+    </div>
+</body>
+
+</html>

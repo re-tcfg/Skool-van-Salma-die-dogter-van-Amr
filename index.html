@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مكتبة مدرسة سلمى بنت عمرو الأساسية ـ بوابة المعرفة الرقمية لطلاب الجفر</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg1: #004d40;
+            --bg2: #00796b;
+            --grad1: #00796b;
+            --grad2: #10b981;
+            --grad3: #ffd700;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-br: 18px;
+            --glass: rgba(255, 255, 255, 0.08);
+            --stroke: rgba(255, 255, 255, 0.18);
+            --txt: #fff;
+            --muted: #c8e6c9;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            height: 100%;
+            color: var(--txt);
+            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+            overflow-x: hidden;
+        }
+        /* Decorative blobs */
+        
+        .blob {
+            position: fixed;
+            filter: blur(60px);
+            opacity: 0.35;
+            z-index: 0;
+            mix-blend-mode: screen;
+            border-radius: 50%;
+        }
+        
+        .b1 {
+            width: 420px;
+            height: 420px;
+            background: conic-gradient(from 90deg at 50% 50%, var(--grad1), var(--grad2));
+            right: -120px;
+            top: -80px;
+            animation: float 14s ease-in-out infinite;
+        }
+        
+        .b2 {
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle at 30% 30%, var(--grad3), transparent 60%), radial-gradient(circle at 70% 70%, var(--grad2), transparent 60%);
+            left: -160px;
+            bottom: -120px;
+            animation: float 18s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(20px);
+            }
+        }
+        /* Nav */
+        
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: saturate(150%) blur(8px);
+            background: rgba(0, 77, 64, 0.7);
+            border-bottom: 1px solid var(--stroke);
+        }
+        
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: var(--grad2);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, .35);
+            font-size: 1.5rem;
+        }
+        
+        .brand h1 {
+            font-size: 1.15rem;
+            margin: 0;
+            letter-spacing: 0.2px;
+            color: var(--grad3);
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            border: 1px solid var(--stroke);
+            color: var(--txt);
+            background: var(--glass);
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.25s ease;
+        }
+        
+        .btn.primary {
+            color: #04251f;
+            background: var(--grad3);
+            border-color: transparent;
+            font-weight: 700;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn .pulse {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(600px 120px at var(--mx) var(--my), rgba(255, 255, 255, 0.25), transparent 40%);
+            opacity: 0;
+            transition: 0.25s;
+        }
+        
+        .btn:hover .pulse {
+            opacity: 1;
+        }
+        /* Hero */
+        
+        .hero {
+            width: 100%;
+            min-height: 100vh;
+            /* يجعل القسم يغطي ارتفاع الشاشة بالكامل */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            /* مسافة من الجانبين */
+            box-sizing: border-box;
+        }
+        
+        .hero .wrap {
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .hero .h-card {
+            width: 100%;
+            padding: 40px 20px;
+            /* حجم البطاقة داخل القسم */
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            /* يمكن تغييره حسب التصميم */
+            backdrop-filter: blur(10px) saturate(150%);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+        
+        .title {
+            font-size: 2.2rem;
+            line-height: 1.25;
+            margin: 0 0 10px;
+        }
+        
+        .lead {
+            color: var(--muted);
+            margin: 0 0 22px;
+            font-size: 1.05rem;
+        }
+        
+        .cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        /* Cards Grid */
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 18px;
+        }
+        
+        .card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--stroke);
+            border-radius: var(--card-br);
+            padding: 18px;
+            transition: 0.25s;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 28px rgba(16, 185, 129, 0.3);
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #04251f;
+            background: var(--grad3);
+            padding: 0.35rem 0.6rem;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+        
+        .card h3 {
+            margin: 10px 0 8px;
+        }
+        
+        .card p {
+            margin: 0;
+            color: var(--muted);
+        }
+        
+        .corner {
+            position: absolute;
+            inset: auto auto 0 0;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle at 0% 100%, var(--grad1), transparent 60%);
+            pointer-events: none;
+        }
+        /* Tabs */
+        
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--stroke);
+            padding: 6px;
+            border-radius: 14px;
+            width: max-content;
+        }
+        
+        .tab {
+            padding: 0.55rem 0.9rem;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            color: var(--muted);
+            text-decoration: none;
+        }
+        
+        .tab.active {
+            background: rgba(16, 185, 129, 0.25);
+            color: var(--txt);
+            border-color: var(--stroke);
+        }
+        /* Footer */
+        
+        footer {
+            margin: 40px 0 24px;
+            text-align: center;
+            color: var(--muted);
+        }
+        /* Responsive */
+        
+        @media (max-width: 980px) {
+            .hero .wrap {
+                grid-template-columns: 1fr;
+            }
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .title {
+                font-size: 1.6rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .wrap {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Decorative blobs -->
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+
+    <!-- Nav -->
+    <nav class="nav">
+        <div class="wrap">
+            <div class="brand">
+                <div class="logo">📚</div>
+                <h1>مكتبة مدرسة سلمى بنت عمرو الأساسية الرقمية</h1>
+            </div>
+            <div class="nav-actions">
+                <button class="btn primary" data-goto="">🚀 ابدأ الآن<span class="pulse"></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="wrap">
+            <div class="h-card">
+                <h2 class="title">مكتبة مدرسة سلمى بنت عمرو الأساسية ـ بوابة المعرفة الرقمية لطلاب الجفر</h2>
+                <p class="lead">مكتبة مدرسة سلمى بنت عمرو الأساسية الرقمية منصة تعليمية متكاملة تُقدّم موارد تعليمية تفاعلية ومصمّمة خصيصًا لطلاب الجفر...</p>
+                <div class="cta">
+                    <button class="btn primary" data-goto="#browse">📖 تصفّح الموارد<span class="pulse"></span></button>
+                </div>
+                <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap">
+                    <div class="tabs" id="gradeTabs">
+                        <a href="الصف 1.html" class="tab active" data-grade="1">الصف 1</a>
+                        <a href="الصف2.html" class="tab" data-grade="2">الصف 2</a>
+                        <a href="الصف 3.html" class="tab" data-grade="3">الصف 3</a>
+                        <a href="الصف4.html" class="tab" data-grade="4">الصف 4</a>
+                        <a href="الصف5.html" class="tab" data-grade="5">الصف 5</a>
+                    </div>
+                </div>
+                <div id="browse" class="grid" aria-live="polite" style="margin-top:14px"></div>
+            </div>
+        </div>
+    </section>
+    </section>
+    <!-- نهاية الـ hero -->
+
+    <!-- قسم ماذا لدينا -->
+    <div class="h-card" id="features" style="margin-top:24px;">
+        <h3 style="margin:0 0 10px">ماذا لدينا ؟</h3>
+        <div class="grid" style="grid-template-columns:1fr; gap:16px">
+            <a href="الادارة.html" class="card">
+                <span class="badge">🎨 قسم ادارة المدرسة</span>
+                <h3>إدارة المدرسة</h3>
+                <p>بطاقات بزجاجية خفيفة وحدود ناعمة وظلال عميقة لواجهة جذابة وأنيقة.</p>
+                <div class="corner"></div>
+            </a>
+
+            <a href="المعلمين.html" class="card">
+                <span class="badge">⚡ كادر التدريس</span>
+                <h3>كادر التدريس</h3>
+                <p>👩‍🏫 الكادر التدريسي - مدرسة سلمى بنت عمرو الأساسية | الصفوف 1-5</p>
+                <div class="corner"></div>
+            </a>
+
+        </div>
+    </div>
+
+    <footer>
+        <small>© 2025 جميع الحقوق محفوظة لمدرسة سلمى بنت عمرو الأساسية / الجفر</small>
+    </footer>
+
+
+    <script>
+        // Ripple-like hover tracking on buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const r = btn.getBoundingClientRect();
+                btn.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                btn.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            });
+            btn.addEventListener('click', () => {
+                const href = btn.getAttribute('data-goto');
+                if (href) {
+                    document.querySelector(href) ? .scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            })
+        });
+
+        // Demo resources per grade
+        const data = {
+            1: [{
+                icon: '📝',
+                title: 'الأحرف العربية',
+                type: '🎥 فيديو',
+                subject: 'اللغة العربية'
+            }],
+            2: [{
+                icon: '📖',
+                title: 'القراءة والكتابة',
+                type: '📊 عرض',
+                subject: 'اللغة العربية'
+            }],
+            3: [{
+                icon: '🧪',
+                title: 'تجارب بسيطة',
+                type: '🎥 فيديو',
+                subject: 'العلوم'
+            }],
+            4: [{
+                icon: '🌍',
+                title: 'بلدان العالم',
+                type: '📊 عرض',
+                subject: 'اجتماعيات'
+            }],
+            5: [{
+                icon: '💡',
+                title: 'حل المشكلات',
+                type: '📄 ورقة عمل',
+                subject: 'تفكير ناقد'
+            }]
+        };
+
+        const grid = document.getElementById('browse');
+
+        function render(grade) {
+            grid.innerHTML = '';
+            data[grade].forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'card';
+                el.innerHTML = `
+                    <span class="badge">${item.type}</span>
+                    <h3>${item.icon} ${item.title}</h3>
+                    <p>المادة: ${item.subject}</p>
+                    <div class="corner"></div>
+                    <div style="display:flex; gap:8px; margin-top:12px">
+                        <button class="btn primary">عرض المورد<span class="pulse"></span></button>
+                        <button class="btn">حفظ للمفضلة<span class="pulse"></span></button>
+                    </div>
+                `;
+                grid.appendChild(el);
+            });
+        }
+
+        // Tabs logic
+        const tabs = document.querySelectorAll('#gradeTabs .tab');
+        tabs.forEach(t => t.addEventListener('click', () => {
+            tabs.forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            render(t.dataset.grade);
+            document.getElementById('browse').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }));
+
+        // Initial load
+        render(1);
+    </script>
+</body>
+
+</html>

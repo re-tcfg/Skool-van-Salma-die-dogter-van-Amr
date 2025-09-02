@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لعبة صنع البطاقات – النباتات</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ألوان ونمط المستخدم */
+        
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: linear-gradient(135deg, #004d40, #00796b);
+            color: #fff;
+        }
+        
+        header {
+            background: rgba(0, 77, 64, 0.7);
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd700;
+            backdrop-filter: blur(10px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        
+        .search-box {
+            /* نستعملها كشريط معلومات */
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .search-box input {
+            width: 80%;
+            max-width: 500px;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .resources-grid,
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .resource-card,
+        .file-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        
+        .resource-card:hover,
+        .file-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resource-title,
+        .file-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+        }
+        
+        .resource-type,
+        .file-box p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #c8e6c9;
+        }
+        
+        .resource-btn,
+        .file-box a,
+        .btn {
+            background: #ffd700;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            text-decoration: none;
+            color: #04251f;
+            display: inline-block;
+        }
+        
+        .resource-btn:hover,
+        .file-box a:hover,
+        .btn:hover {
+            background: #ffeb3b;
+            transform: scale(1.05);
+        }
+        
+        .file-box .number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffd166;
+        }
+        
+        .file-box i {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+            color: #10b981;
+        }
+        
+        .back-button {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .back-button a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            background: #064b40;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        
+        .back-button a:hover {
+            background: #10b981;
+        }
+        /* المودال */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #fff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content h2 {
+            margin-top: 0;
+            color: #00796b;
+        }
+        
+        .modal-content button {
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            background: #00796b;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .modal-content button:hover {
+            background: #004d40;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        /* إضافات لتنسيق نموذج اللعبة وبطاقة المعاينة */
+        
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #fffb;
+            font-weight: 600;
+        }
+        
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            color: #04251f;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05) inset;
+        }
+        
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        /* بطاقة المعاينة النهائية */
+        
+        .preview-wrap {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .plant-card {
+            width: 420px;
+            background: #fefefe;
+            color: #04251f;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+            border: 6px solid #ffd700;
+        }
+        
+        .plant-card header {
+            background: linear-gradient(135deg, #00695c, #004d40);
+            color: #ffd700;
+            padding: 1rem 1.2rem;
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .plant-card .inner {
+            padding: 1rem 1.2rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #00796b;
+            color: #fff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+        }
+        
+        .figure {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e8fff7;
+            border: 2px dashed #cde9df;
+            height: 180px;
+            border-radius: 14px;
+            margin-bottom: 0.8rem;
+        }
+        
+        .figure .emoji {
+            font-size: 90px;
+        }
+        
+        .kv {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 0.4rem 0.8rem;
+            margin-top: 0.6rem;
+        }
+        
+        .kv .key {
+            color: #00695c;
+            font-weight: 700;
+        }
+        
+        .kv .val {
+            color: #06342d;
+        }
+        
+        .note {
+            margin-top: 0.8rem;
+            background: #fff9e0;
+            border-left: 6px solid #ffd700;
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+        }
+        
+        footer small {
+            color: #c8e6c9;
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>🎴 لعبة صنع البطاقات – النباتات</header>
+
+    <div class="container">
+        <div class="search-box">
+            <p style="margin:0;color:#c8e6c9">اختر نباتك، اكتب المعلومات، ثم أنشئ بطاقتك واطبعها أو حمّلها كصورة.</p>
+        </div>
+
+        <section class="grid grid-2">
+            <!-- نموذج الإدخال -->
+            <div class="card">
+                <h3 class="file-box h3" style="margin:0 0 0.8rem 0;color:#ffd700">الخطوة 1: بيانات البطاقة</h3>
+                <div class="grid">
+                    <div>
+                        <label>اسم الطالب/ـة</label>
+                        <input id="studentName" type="text" placeholder="مثال: سارة خالد" />
+                    </div>
+                    <div>
+                        <label>اختيار النبات</label>
+                        <select id="plantSelect">
+              <option value="zaatar">🌿 الزعتر</option>
+              <option value="ful">🫘 الفول</option>
+              <option value="maryamiyah">🍵 الميرمية</option>
+              <option value="babounaj">🌼 البابونج</option>
+            </select>
+                    </div>
+                    <div>
+                        <label>هل النبات زهري؟</label>
+                        <select id="isFlowering">
+              <option value="زهري">زهري</option>
+              <option value="لا زهري">لا زهري</option>
+            </select>
+                    </div>
+                    <div>
+                        <label>طريقة التكاثر</label>
+                        <input id="reproduction" type="text" placeholder="مثال: بالبذور / بالعُقَل / بالأبواغ" />
+                    </div>
+                    <div>
+                        <label>البيئة والموطن</label>
+                        <textarea id="habitat" placeholder="أين يعيش؟ ما الظروف المناسبة للنمو؟"></textarea>
+                    </div>
+                    <div>
+                        <label>الفوائد والاستخدامات</label>
+                        <textarea id="benefits" placeholder="فوائد غذائية/طبية/بيئية..."></textarea>
+                    </div>
+                </div>
+                <div class="actions" style="margin-top: 0.8rem;">
+                    <button class="btn" id="fillTemplate">تعبئة تلقائية (نموذج)</button>
+                    <button class="btn" id="makeCard">إنشاء البطاقة</button>
+                    <button class="btn" id="downloadPng" disabled>تحميل PNG</button>
+                    <button class="btn" id="printCard" disabled>طباعة</button>
+                </div>
+            </div>
+
+            <!-- المعاينة المباشرة -->
+            <div class="card">
+                <h3 class="file-box h3" style="margin:0 0 0.8rem 0;color:#ffd700">الخطوة 2: معاينة البطاقة</h3>
+                <div class="preview-wrap">
+                    <div id="cardArea" class="plant-card" aria-label="بطاقة نبات">
+                        <header id="cardTitle">بطاقة نبات 🌿</header>
+                        <div class="inner">
+                            <span class="badge" id="studentBadge">اسم الطالب/ـة</span>
+                            <div class="figure"><span class="emoji" id="plantEmoji">🌿</span></div>
+                            <div class="kv">
+                                <div class="key">النبات</div>
+                                <div class="val" id="kvPlant">—</div>
+                                <div class="key">التصنيف</div>
+                                <div class="val" id="kvFlower">—</div>
+                                <div class="key">التكاثر</div>
+                                <div class="val" id="kvRepro">—</div>
+                                <div class="key">البيئة</div>
+                                <div class="val" id="kvHabitat">—</div>
+                                <div class="key">الفوائد</div>
+                                <div class="val" id="kvBenefits">—</div>
+                            </div>
+                            <div class="note"><strong>هل تعلم؟</strong> النباتات كائنات حية تتنفس وتنمو وتتكاثر 🌱</div>
+                        </div>
+                    </div>
+                </div>
+                <footer><small>انقر "إنشاء البطاقة" لتفعيل الطباعة والتحميل.</small></footer>
+            </div>
+        </section>
+    </div>
+
+    <!-- مودال بسيط للتأكيد -->
+    <div id="doneModal" class="modal" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <h2>تم إنشاء البطاقة ✅</h2>
+            <p>يمكنك الآن تحميلها كصورة أو طباعتها.</p>
+            <button id="closeModal">حسناً</button>
+        </div>
+    </div>
+
+    <!-- html2canvas للتحميل كصورة -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        const studentName = document.getElementById('studentName');
+        const plantSelect = document.getElementById('plantSelect');
+        const isFlowering = document.getElementById('isFlowering');
+        const reproduction = document.getElementById('reproduction');
+        const habitat = document.getElementById('habitat');
+        const benefits = document.getElementById('benefits');
+
+        const cardTitle = document.getElementById('cardTitle');
+        const studentBadge = document.getElementById('studentBadge');
+        const plantEmoji = document.getElementById('plantEmoji');
+        const kvPlant = document.getElementById('kvPlant');
+        const kvFlower = document.getElementById('kvFlower');
+        const kvRepro = document.getElementById('kvRepro');
+        const kvHabitat = document.getElementById('kvHabitat');
+        const kvBenefits = document.getElementById('kvBenefits');
+
+        const fillTemplateBtn = document.getElementById('fillTemplate');
+        const makeCardBtn = document.getElementById('makeCard');
+        const downloadBtn = document.getElementById('downloadPng');
+        const printBtn = document.getElementById('printCard');
+
+        const modal = document.getElementById('doneModal');
+        const closeModal = document.getElementById('closeModal');
+        const cardArea = document.getElementById('cardArea');
+
+        const PLANT_TEMPLATES = {
+            zaatar: {
+                name: 'الزعتر',
+                emoji: '🌿',
+                flowering: 'زهري',
+                repro: 'بالبذور والعُقَل',
+                habitat: 'ينمو في المناطق الجبلية المشمسة والتربة الجافة نسبيًا، ويُفضّل مناخًا معتدلًا.',
+                benefits: 'نكهة غذائية، فوائد طبية للجهاز التنفسي والمناعة.'
+            },
+            ful: {
+                name: 'الفول',
+                emoji: '🫘',
+                flowering: 'زهري (ثُنائِي الفلقة)',
+                repro: 'بالبذور',
+                habitat: 'بيئة معتدلة، يُزرع عادةً في الربيع ولا يحتمل الحرارة العالية أو الصقيع الشديد.',
+                benefits: 'غذاء غني بالبروتين والألياف؛ يثري التربة بتثبيت النيتروجين.'
+            },
+            maryamiyah: {
+                name: 'الميرمية',
+                emoji: '🍵',
+                flowering: 'زهري',
+                repro: 'بالعُقَل والبذور',
+                habitat: 'تربة جيدة الصرف وشمس مباشرة، مناخ معتدل إلى دافئ.',
+                benefits: 'فوائد عشبية مهدئة ومساعدة للهضم (يُستشار المختص قبل الاستخدام الطبي).'
+            },
+            babounaj: {
+                name: 'البابونج',
+                emoji: '🌼',
+                flowering: 'زهري',
+                repro: 'بالبذور',
+                habitat: 'أماكن مشمسة وتربة خفيفة جيدة الصرف.',
+                benefits: 'مهدئ وللاسترخاء والعناية بالبشرة (يُستشار المختص قبل الاستخدام الطبي).'
+            }
+        };
+
+        function applyTemplate(key) {
+            const t = PLANT_TEMPLATES[key];
+            if (!t) return;
+            isFlowering.value = (t.flowering.includes('لا')) ? 'لا زهري' : 'زهري';
+            reproduction.value = t.repro;
+            habitat.value = t.habitat;
+            benefits.value = t.benefits;
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const key = plantSelect.value;
+            const t = PLANT_TEMPLATES[key];
+            const student = studentName.value.trim() || 'اسم الطالب/ـة';
+
+            cardTitle.textContent = `بطاقة ${t ? t.name : 'نبات'} ${t ? t.emoji : '🌿'}`;
+            studentBadge.textContent = student;
+            plantEmoji.textContent = t ? t.emoji : '🌿';
+
+            kvPlant.textContent = t ? t.name : '—';
+            kvFlower.textContent = isFlowering.value || (t ? t.flowering : '—');
+            kvRepro.textContent = reproduction.value || (t ? t.repro : '—');
+            kvHabitat.textContent = habitat.value || (t ? t.habitat : '—');
+            kvBenefits.textContent = benefits.value || (t ? t.benefits : '—');
+        }
+
+        function makeCard() {
+            updatePreview();
+            // تفعيل الأزرار وإظهار المودال
+            downloadBtn.disabled = false;
+            printBtn.disabled = false;
+            modal.style.display = 'flex';
+        }
+
+        function downloadPNG() {
+            html2canvas(cardArea, {
+                scale: 2
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'بطاقة-نبات.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function printCard() {
+            const w = window.open('', 'PRINT', 'height=650,width=480');
+            if (!w) return;
+            const css = `
+        <style>
+          @page { size: A4; margin: 20mm; }
+          body { font-family: 'Cairo', sans-serif; display:flex; justify-content:center; }
+        </style>
+      `;
+            w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">${css}</head><body>${cardArea.outerHTML}</body></html>`);
+            w.document.close();
+            w.focus();
+            w.print();
+            w.close();
+        }
+
+        // الأحداث
+        plantSelect.addEventListener('change', e => applyTemplate(e.target.value));
+        [studentName, isFlowering, reproduction, habitat, benefits].forEach(el => el.addEventListener('input', updatePreview));
+
+        fillTemplateBtn.addEventListener('click', () => applyTemplate(plantSelect.value));
+        makeCardBtn.addEventListener('click', makeCard);
+        downloadBtn.addEventListener('click', downloadPNG);
+        printBtn.addEventListener('click', printCard);
+
+        closeModal.addEventListener('click', () => modal.style.display = 'none');
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+
+        // معاينة أولية
+        applyTemplate('zaatar');
+    </script>
+    <!-- زر الرجوع -->
+    <div class="back-button">
+        <a href="Index.html"><i class="fas fa-arrow-left"></i> الرجوع للرئيسية</a>
+    </div>
+</body>
+
+</html>
